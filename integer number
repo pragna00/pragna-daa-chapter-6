@@ -1,0 +1,12 @@
+def find_target_sum_ways(nums, target):
+    dp = {0: 1}
+    for num in nums:
+        temp = {}
+        for d, count in dp.items():
+            temp[d + num] = temp.get(d + num, 0) + count
+            temp[d - num] = temp.get(d - num, 0) + count
+        dp = temp
+    return dp.get(target, 0)
+nums = [1, 1, 1, 1, 1]
+target = 3
+print(find_target_sum_ways(nums, target))  # Output: 5
