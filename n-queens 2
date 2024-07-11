@@ -1,0 +1,37 @@
+import matplotlib.pyplot as plt
+import numpy as np
+def is_safe(board, row, col, n_rows, n_cols):
+    for i in range(row):
+        if board[i] == col or \
+            board[i] - i == col - row or \
+            board[i] + i == col + row:
+            return False
+    return True
+def solve_n_queens(n_rows, n_cols):
+    def solve(row, board):
+        if row == n_rows:
+            solutions.append(board[:])
+            return
+        for col in range(n_cols):
+            if is_safe(board, row, col, n_rows, n_cols):
+                board[row] = col
+                solve(row + 1, board)
+    solutions = []
+    solve(0, [-1]*n_rows)
+    return solutions
+def visualize_solution(n_rows, n_cols, solution):
+    board = np.zeros((n_rows, n_cols))
+    for i, col in enumerate(solution):
+        board[i, col] = 1
+    plt.imshow(board, cmap='binary')
+    plt.xticks([])
+    plt.yticks([])
+    plt.show()
+n_rows, n_cols = 8, 10
+solutions = solve_n_queens(n_rows, n_cols)
+print(f"{n_rows}x{n_cols} Board: {len(solutions)} solutions")
+for i, solution in enumerate(solutions):
+    print(f"Solution {i+1}: {solution}")
+    visualize_solution(n_rows, n_cols, solution)
+    plt.title(f"{n_rows}x{n_cols} Board, Solution {i+1}")
+    plt.show()
