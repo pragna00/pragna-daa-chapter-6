@@ -1,0 +1,12 @@
+def generate_subsets(S):
+    n = len(S)
+    total_subsets = 2 ** n
+    subsets = []
+    for i in range(total_subsets):
+        subset = [S[j] for j in range(n) if (i & (1 << j))]
+        subsets.append(subset)
+    return subsets
+S = [1, 2, 3]
+subsets = generate_subsets(S)
+for i, subset in enumerate(subsets):
+    print(f"Subset {i + 1}: {subset}")
