@@ -1,0 +1,28 @@
+from collections import defaultdict
+def graph_coloring(edges, n):
+    graph = defaultdict(list)
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+    colors = [-1] * n
+    max_colors = 0
+    def is_safe(v, c):
+        for i in graph[v]:
+            if colors[i] == c:
+                return False
+        return True
+    def graph_color_util(v):
+        nonlocal max_colors
+        if v == n:
+            max_colors = max(max_colors, max(colors) + 1)
+            return
+        for c in range(max_colors + 1):
+            if is_safe(v, c):
+                colors[v] = c
+                graph_color_util(v + 1)
+                colors[v] = -1
+    graph_color_util(0)
+    return max_colors
+edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2)]
+n = 4
+print(graph_coloring(edges, n))  # Output: 3
