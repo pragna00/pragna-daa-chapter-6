@@ -1,0 +1,19 @@
+def permuteUnique(nums):
+    def backtrack(start, end):
+        if start == end:
+            if tuple(nums) not in temp:
+                temp.add(tuple(nums))
+                res.append(nums[:])
+        for i in range(start, end):
+            if nums[i] in nums[start:i]:  # skip duplicates
+                continue
+            nums[start], nums[i] = nums[i], nums[start]
+            backtrack(start + 1, end)
+            nums[start], nums[i] = nums[i], nums[start]
+    nums.sort()
+    res = []
+    temp = set()
+    backtrack(0, len(nums))
+    return res
+nums = [1, 1, 2]
+print(permuteUnique(nums))  # Output: [[1, 1, 2], [1, 2, 1], [2, 1, 1]]
